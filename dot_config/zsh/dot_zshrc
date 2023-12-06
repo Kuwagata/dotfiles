@@ -1,0 +1,48 @@
+xdg_cache="${XDG_CACHE_HOME:-$HOME/.cache}"
+xdg_data="${XDG_DATA_HOME:-$HOME/.local/share}"
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${xdg_cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${xdg_cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+export ZSH_AUTOSUGGEST_USE_ASYNC=true
+
+CUR_DIR="$(dirname ${(%):-%x})"
+source "${CUR_DIR}/config/aliases.zsh"
+source "${CUR_DIR}/config/completion.zsh"
+source "${CUR_DIR}/config/directory.zsh"
+source "${CUR_DIR}/config/environment.zsh"
+source "${CUR_DIR}/config/history.zsh"
+source "${CUR_DIR}/config/input.zsh"
+source "${CUR_DIR}/config/utility.zsh"
+
+source "/usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme"
+
+fpath=("${xdg_data}/zsh/completions" $fpath)
+
+autoload -Uz compinit && compinit -C -d "${xdg_cache}/zsh/zcompdump-${ZSH_VERSION}"
+
+# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
+typeset -U PATH path
+path=(
+    "$HOME/.local/bin"              # Personal binaries and scripts
+    "$HOME/kde/src/kdesrc-build"    # KDE build tool
+    "/usr/lib/ccache/bin"           # Compilation cache (gcc/clang/etc)
+    "${xdg_data}/npm/bin"           # NPM
+    "$path[@]"
+)
+export PATH
+
+source /usr/share/LS_COLORS/dircolors.sh
+zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”
+
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey "${terminfo[kcuu1]}" history-substring-search-up
+bindkey "${terminfo[kcud1]}" history-substring-search-down
