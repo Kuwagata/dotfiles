@@ -2,7 +2,6 @@ return {
 	{
 		"mfussenegger/nvim-dap",
 		lazy = true,
-		opts = {},
 		build = function()
 			vim.cmd.helptags(vim.fn.stdpath("data") .. "/lazy/nvim-dap/doc")
 		end,
