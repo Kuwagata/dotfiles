@@ -1,3 +1,5 @@
+local shared = require("plugin_configs/nvim-dap/shared")
+
 vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("nvimdap_python", {}),
 	pattern = "python",
@@ -35,21 +37,17 @@ vim.api.nvim_create_autocmd("FileType", {
 				type = "debugpy",
 				request = "launch",
 				name = "Launch file",
-
 				program = "${file}",
-				pythonPath = function()
-					local venv = os.getenv("VIRTUAL_ENV")
-					local cwd = vim.fn.getcwd()
-					if venv then
-						return venv .. "/bin/python"
-					elseif vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
-						return cwd .. "/venv/bin/python"
-					elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
-						return cwd .. "/.venv/bin/python"
-					else
-						return "/usr/bin/python"
-					end
-				end,
+				pythonPath = shared.getPythonPath,
+				args = {},
+			},
+			{
+				type = "debugpy",
+				request = "launch",
+				name = "Launch file with args",
+				program = "${file}",
+				pythonPath = shared.getPythonPath,
+				args = shared.promptArgs,
 			},
 		}
 	end,

@@ -1,8 +1,8 @@
 local shared = require("plugin_configs/nvim-dap/shared")
 
 vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("nvimdap_c", {}),
-	pattern = "c",
+	group = vim.api.nvim_create_augroup("nvimdap_rust", {}),
+	pattern = "rust",
 	callback = function(_)
 		local dap = require("dap")
 
@@ -18,13 +18,33 @@ vim.api.nvim_create_autocmd("FileType", {
 			name = "lldb",
 		}
 
-		dap.configurations.c = {
+		local function initCommands()
+			local rustc_sysroot = vim.fn.trim(vim.fn.system("rustc --print sysroot"))
+
+			local script_import = 'command script import "' .. rustc_sysroot .. '/lib/rustlib/etc/lldb_lookup.py"'
+			local commands_file = rustc_sysroot .. "/lib/rustlib/etc/lldb_commands"
+
+			local commands = {}
+			local file = io.open(commands_file, "r")
+			if file then
+				for line in file:lines() do
+					table.insert(commands, line)
+				end
+				file:close()
+			end
+			table.insert(commands, 1, script_import)
+
+			return commands
+		end
+
+		dap.configurations.rust = {
 			{
 				name = "Launch GDB",
 				type = "gdb",
 				request = "launch",
 				program = shared.getExePath,
 				cwd = "${workspaceFolder}",
+				initCommands = initCommands,
 				args = {},
 			},
 			{
@@ -33,6 +53,7 @@ vim.api.nvim_create_autocmd("FileType", {
 				request = "launch",
 				program = shared.getExePath,
 				cwd = "${workspaceFolder}",
+				initCommands = initCommands,
 				args = shared.promptArgs,
 			},
 			{
@@ -44,6 +65,7 @@ vim.api.nvim_create_autocmd("FileType", {
 				env = shared.inheritEnv,
 				stopOnEntry = false,
 				args = {},
+				initCommands = initCommands,
 			},
 			{
 				name = "Launch LLDB with args",
@@ -54,11 +76,13 @@ vim.api.nvim_create_autocmd("FileType", {
 				env = shared.inheritEnv,
 				stopOnEntry = false,
 				args = shared.promptArgs,
+				initCommands = initCommands,
 			},
 			{
 				name = "Attach GDB",
 				type = "gdb",
 				request = "attach",
+				initCommands = initCommands,
 				pid = require("dap.utils").pick_process,
 				args = {},
 			},
@@ -66,6 +90,7 @@ vim.api.nvim_create_autocmd("FileType", {
 				name = "Attach LLDB",
 				type = "lldb",
 				request = "attach",
+				initCommands = initCommands,
 				pid = require("dap.utils").pick_process,
 				args = {},
 			},

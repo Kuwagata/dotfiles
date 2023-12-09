@@ -1,8 +1,8 @@
 local shared = require("plugin_configs/nvim-dap/shared")
 
 vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("nvimdap_c", {}),
-	pattern = "c",
+	group = vim.api.nvim_create_augroup("nvimdap_cpp", {}),
+	pattern = "cpp",
 	callback = function(_)
 		local dap = require("dap")
 
@@ -18,7 +18,7 @@ vim.api.nvim_create_autocmd("FileType", {
 			name = "lldb",
 		}
 
-		dap.configurations.c = {
+		dap.configurations.cpp = {
 			{
 				name = "Launch GDB",
 				type = "gdb",
