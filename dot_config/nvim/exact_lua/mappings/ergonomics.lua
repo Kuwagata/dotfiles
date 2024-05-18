@@ -1,0 +1,6 @@
+vim.keymap.set("i", "kj", "<esc>", { desc = "Ergonomic escape" })
+vim.keymap.set("t", "kj", "<C-\\><C-n>", { desc = "Ergonomic escape (terminal mode)" })
+vim.keymap.set("n", "<leader>w", "<cmd>w!<CR>", { desc = "Ergonomic save" })
+vim.keymap.set("n", "<leader>q", "<cmd>q<CR>", { desc = "Ergonomic quit" })
+vim.keymap.set("n", "<leader>u", ":Lazy update<CR>", { desc = "Ergonomic package update", silent = true })
+vim.keymap.set("n", "<C-l>", "<cmd>noh<CR>", { desc = "Ergonomic clear highlights", silent = true })

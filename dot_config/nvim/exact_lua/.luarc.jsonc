@@ -1,0 +1,17 @@
+{
+    "telemetry": {
+        "enable": false,
+    },
+    "runtime": {
+        "version": "LuaJIT",
+    },
+    "diagnostics": {
+        "globals": ["vim"]
+    },
+    "workspace": {
+        "library": [
+            "$VIMRUNTIME",
+            "$XDG_CONFIG_HOME/nvim"
+        ],
+    },
+}

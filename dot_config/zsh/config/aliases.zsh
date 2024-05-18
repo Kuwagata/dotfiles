@@ -12,7 +12,7 @@ alias chgrp="${aliases[chgrp]:-chgrp} --preserve-root"
 # Various ls convenience aliases
 alias ls="${aliases[ls]:-ls} -hF --color=auto"
 alias lr='ls -R'
-alias ll="eza --tree --all --group-directories-first"
+alias ll="eza -l --all --group-directories-first"
 alias la='ll -A'
 alias lx='ll -BX'                   # sort by extension
 alias lz='ll -rS'                   # sort by size

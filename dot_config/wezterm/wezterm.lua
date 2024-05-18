@@ -6,7 +6,7 @@ wezterm.on("gui-startup", function(cmd)
 	window:gui_window():maximize()
 end)
 
-config.font = wezterm.font("Iosevka")
+config.font = wezterm.font_with_fallback({ "Iosevka Term", "Iosevka Nerd Font Mono", "Fira Code", "Noto Color Emoji" })
 config.font_size = 11
 config.default_prog = { "/usr/bin/zsh" }
 config.window_decorations = "RESIZE"
