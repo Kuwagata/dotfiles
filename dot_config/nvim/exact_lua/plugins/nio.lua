@@ -1,2 +1,2 @@
 -- vim: set foldmethod=marker :
-return { "nvim-neotest/nvim-nio" }
+return { 'nvim-neotest/nvim-nio' }

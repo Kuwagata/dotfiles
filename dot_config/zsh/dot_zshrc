@@ -47,10 +47,11 @@ compdef _dotnet_zsh_complete dotnet
 
 typeset -U PATH path
 path=(
-    "$HOME/.local/bin"              # Personal binaries and scripts
-    "$HOME/kde/src/kdesrc-build"    # KDE build tool
-    "/usr/lib/ccache/bin"           # Compilation cache (gcc/clang/etc)
-    "${xdg_data}/npm/bin"           # NPM
+    "${HOME}/.local/bin"                # Personal binaries and scripts
+    "${HOME}/kde/src/kdesrc-build"      # KDE build tool
+    "/usr/lib/ccache/bin"               # Compilation cache (gcc/clang/etc)
+    "${xdg_data}/npm/bin"               # NPM
+    "${HOME}/.dotnet/tools"             # .NET
     "$path[@]"
 )
 export PATH

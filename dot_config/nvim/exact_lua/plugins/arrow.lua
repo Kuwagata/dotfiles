@@ -13,7 +13,7 @@ return {
       desc = 'Activate arrow UI',
     },
     {
-      '<C-s>',
+      '<C-d>',
       mode = { 'n', 'i', 't', 'v' },
       desc = 'Activate arrow buffer UI',
     },
